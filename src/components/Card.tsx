@@ -1,22 +1,32 @@
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+
 type CardProps = {
   title: string;
   subtitle: string;
 };
 
-const Card = ({ title, subtitle }: CardProps) => (
-  <div
-    style={{
-      border: "1px solid #ddd",
-      borderRadius: "12px",
-      padding: "1rem",
-      width: "250px",
-      boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-    }}
-  >
-    <h3>{title}</h3>
-    <p>{subtitle}</p>
-    <button>Info</button>
-  </div>
+const ContractCard = ({ title, subtitle }: CardProps) => (
+  <Card elevation={3} sx={{ minWidth: 275, borderRadius: 3 }}>
+    <CardContent>
+      <Typography gutterBottom variant="h6" component="div">
+        {title}
+      </Typography>
+
+      <Typography variant="body2" color="text.secondary">
+        {subtitle}
+      </Typography>
+    </CardContent>
+
+    <CardActions sx={{ px: 2, pb: 2 }}>
+      <Button size="small" variant="contained">
+        Info
+      </Button>
+    </CardActions>
+  </Card>
 );
 
-export default Card;
+export default ContractCard;

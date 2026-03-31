@@ -1,25 +1,46 @@
-import Card from "./components/Card";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+
+import ContractCard from "./components/Card";
 import { mockData } from "./data/mockData";
 
-function App() {
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h1>LIVEWELL</h1>
+const App = () => (
+  <>
+    <CssBaseline />
 
-      <div
-        style={{
-          display: "flex",
-          gap: "1rem",
-          flexWrap: "wrap",
-          marginTop: "2rem",
-        }}
-      >
-        {mockData.map((card, index) => (
-          <Card key={index} title={card.title} subtitle={card.subtitle} />
-        ))}
-      </div>
-    </div>
-  );
-}
+    <Box sx={{ flexGrow: 1, minHeight: "100vh", bgcolor: "grey.100" }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            LIVEWELL
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Trading Dashboard
+        </Typography>
+
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+          Monitor contracts, review expirations, and evaluate opportunities.
+        </Typography>
+
+        <Grid container spacing={3}>
+          {mockData.map((card) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={card.title}>
+              <ContractCard title={card.title} subtitle={card.subtitle} />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </Box>
+  </>
+);
 
 export default App;
