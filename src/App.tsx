@@ -31,10 +31,21 @@ const App = () => (
           Monitor contracts, review expirations, and evaluate opportunities.
         </Typography>
 
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+          Active Contracts: {mockData.length} | Review Needed:{" "}
+          {mockData.filter((card) => card.status === "Review").length}
+        </Typography>
+
         <Grid container spacing={3}>
           {mockData.map((card) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={card.title}>
-              <ContractCard title={card.title} subtitle={card.subtitle} />
+              <ContractCard
+                key={card.instrument + card.strike}
+                instrument={card.instrument}
+                strike={card.strike}
+                expiry={card.expiry}
+                status={card.status}
+              />{" "}
             </Grid>
           ))}
         </Grid>
