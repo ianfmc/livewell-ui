@@ -1,73 +1,158 @@
-# React + TypeScript + Vite
+# LIVEWELL
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+LIVEWELL is a decision-support system for trading NADEX binary options.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The goal is to move from:
 
-## React Compiler
+* raw market data
+  → to structured signals
+  → to evaluated opportunities
+  → to disciplined decision-making
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project will evolve from a front-end prototype into a full system with:
 
-## Expanding the ESLint configuration
+* backend APIs
+* machine learning models
+* and eventually agent-driven workflows
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Current Status
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+[✓] UI scaffold
+[✓] Global state (theme)
+[✓] First real product page
+[ ] API integration  ← CURRENT FOCUS
+[ ] Backend extraction
+[ ] ML pipeline
+[ ] Agents
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Current Objective
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Build the first real product page:
+
+👉 **Daily Signals**
+
+This page will:
+
+* display scored opportunities
+* allow filtering (market, status, etc.)
+* serve as the primary user workflow
+
+**Definition of Done**
+
+* Separate `DailySignals` page/component
+* Uses mock data
+* Clean layout and filtering
+* No backend dependency yet
+
+---
+
+## Tech Stack
+
+### Frontend
+
+* React (TypeScript)
+* Vite
+* Material UI (MUI)
+
+### State Management
+
+* React Context (ThemeProvider)
+
+### Data (current)
+
+* Mock data (local)
+
+---
+
+## Project Structure (initial)
+
 ```
+src/
+  components/
+    contract-card.tsx
+    theme-provider.tsx
+  data/
+    mockData.ts
+  App.tsx
+```
+
+Planned:
+
+```
+src/
+  pages/
+    DailySignals.tsx
+```
+
+---
+
+## Development
+
+### Install
+
+```
+npm install
+```
+
+### Run locally
+
+```
+npm run dev
+```
+
+Then open:
+
+```
+http://localhost:5173
+```
+
+---
+
+## Guiding Principles
+
+* Build **product-first**, not architecture-first
+* Always have a **clear next executable step**
+* Prefer **simple working code** over premature abstraction
+* Separate **UI, API, and ML concerns** cleanly
+* Design for **eventual portability and decoupling**
+
+---
+
+## Next Step
+
+Replace mock data usage with an API call in `DailySignals.tsx`.
+
+* Introduce async data fetching
+* Add loading and error states
+* Prepare for backend integration
+
+---
+
+## Long-Term Vision
+
+LIVEWELL will evolve into:
+
+* A full decision system for NADEX trading
+* With explainable signals and edge calculations
+* Backed by ML models and historical validation
+* Extended with agent-based workflows
+
+---
+
+## Notes
+
+This project is intentionally built incrementally to maintain momentum and clarity.
+
+When returning after time away:
+
+1. Check **Current Status**
+2. Execute **Next Step**
+3. Avoid jumping ahead
