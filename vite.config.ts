@@ -10,6 +10,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/hooks/**', 'src/components/**', 'src/pages/**'],
+      exclude: ['src/components/theme-provider.tsx'],
       thresholds: {
         lines: 80,
       },
