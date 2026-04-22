@@ -35,4 +35,19 @@ describe('DailySignals', () => {
     render(<DailySignals />);
     expect(await screen.findByRole('alert')).toBeInTheDocument();
   });
+
+  it('filter reset to All shows all cards', async () => {
+    render(<DailySignals />);
+    await screen.findByText('EUR/USD');
+
+    fireEvent.mouseDown(screen.getByRole('combobox'));
+    fireEvent.click(await screen.findByRole('option', { name: 'Review' }));
+    expect(screen.queryByText('EUR/USD')).not.toBeInTheDocument();
+
+    fireEvent.mouseDown(screen.getByRole('combobox'));
+    fireEvent.click(await screen.findByRole('option', { name: 'All' }));
+    expect(screen.getByText('EUR/USD')).toBeInTheDocument();
+    expect(screen.getByText('GBP/USD')).toBeInTheDocument();
+    expect(screen.getByText('USD/JPY')).toBeInTheDocument();
+  });
 });
