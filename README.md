@@ -25,32 +25,11 @@ This project will evolve from a front-end prototype into a full system with:
 [✓] UI scaffold
 [✓] Global state (theme)
 [✓] First real product page
-[ ] API integration  ← CURRENT FOCUS
+[✓] API integration (MSW)
 [ ] Backend extraction
 [ ] ML pipeline
 [ ] Agents
 ```
-
----
-
-## Current Objective
-
-Build the first real product page:
-
-👉 **Daily Signals**
-
-This page will:
-
-* display scored opportunities
-* allow filtering (market, status, etc.)
-* serve as the primary user workflow
-
-**Definition of Done**
-
-* Separate `DailySignals` page/component
-* Uses mock data
-* Clean layout and filtering
-* No backend dependency yet
 
 ---
 
@@ -72,24 +51,19 @@ This page will:
 
 ---
 
-## Project Structure (initial)
+## Project Structure
 
 ```
 src/
   components/
     contract-card.tsx
+    mode-toggle.tsx
     theme-provider.tsx
   data/
     mockData.ts
-  App.tsx
-```
-
-Planned:
-
-```
-src/
   pages/
     DailySignals.tsx
+  App.tsx
 ```
 
 ---
@@ -128,11 +102,11 @@ http://localhost:5173
 
 ## Next Step
 
-Replace mock data usage with an API call in `DailySignals.tsx`.
+Extract the backend — move the MSW handler toward a real server.
 
-* Introduce async data fetching
-* Add loading and error states
-* Prepare for backend integration
+* Set up a minimal Express or FastAPI server
+* Serve `GET /api/signals` from real data (file or DB)
+* Remove MSW from the dev flow once the real endpoint is live
 
 ---
 
