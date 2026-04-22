@@ -1,78 +1,73 @@
-# Current Step Plan: API Integration via MSW
+# Current Step Plan: Dashboard Page (Phase 1A)
 
-**Goal:** Replace direct mock data usage with an async API call, using Mock Service Worker (MSW) to simulate a real backend. Introduce a `useSignals` hook and add loading/error states.
+**Goal:** Build the Dashboard as the primary landing page using mock data that matches the backend API contracts defined in the delivery plan. The Dashboard is the "what matters right now?" view — market regime, today's opportunities, model health summary, and no-trade warnings.
 
-**Baseline:** `DailySignals.tsx` imports `mockData` directly. No async behavior, no loading/error handling.
+**Baseline:** The app currently loads directly into `DailySignals`. There is no Dashboard, no navigation between pages, and no route structure.
+
+**Delivery plan reference:** Phase 1A — Product Shell and Page Contracts.
 
 ---
 
-## Steps
+## Tracks
 
-### 1. Install MSW
-```
-npm install msw --save-dev
-```
+This step has two independent tracks that can proceed in parallel.
 
-### 2. Copy MSW service worker to public/
-```
-npx msw init public/ --save
-```
-This writes `public/mockServiceWorker.js` (required by MSW at runtime) and records the path in `package.json`.
+### Track A — Navigation shell
 
-### 3. Define mock handler
-Create `src/mocks/handlers.ts`:
-- Handle `GET /api/signals`
-- Return the existing mock data from `mockData.ts` as the response body
-- This becomes the single source of truth for mock API responses
+The app needs a navigation structure before a second page can exist.
 
-### 4. Set up MSW browser worker
-Create `src/mocks/browser.ts`:
-- Import handlers and call `setupWorker(...handlers)`
-- Export the `worker` instance
+1. Install React Router (`npm install react-router-dom`)
+2. Add route structure in `main.tsx` or a new `router.tsx`:
+   - `/` → Dashboard
+   - `/signals` → DailySignals
+3. Add sidebar or nav links to `App.tsx` (drawer or persistent left nav)
+4. Confirm both routes render correctly
 
-### 5. Start MSW in development
-Update `src/main.tsx`:
-- Conditionally import and start the worker when `import.meta.env.DEV` is true
-- Start the worker before rendering React (worker must be ready before first fetch)
+### Track B — Dashboard page
 
-### 6. Create `useSignals` hook
-Create `src/hooks/useSignals.ts`:
-- Internal state: `data: ContractCard[]`, `loading: boolean`, `error: string | null`
-- `useEffect` fires once on mount, calls `fetch('/api/signals')`, parses JSON, sets state
-- Returns `{ data, loading, error }`
+Create `src/pages/Dashboard.tsx` with mock data.
 
-### 7. Update `DailySignals.tsx`
-- Remove the `mockData` import
-- Call `useSignals()` to get `{ data, loading, error }`
-- Replace `mockData` references with `data`
-- Render a loading indicator while `loading` is true
-- Render an error message if `error` is set
+**Sections to build:**
 
-### 8. Update README
-- Mark `[ ] API integration` as `[✓]`
-- Update **Next Step** to: *Extract backend — move mock handlers toward a real Express/FastAPI server*
+1. **Market regime banner** — shows current regime for each tracked market (e.g. EUR/USD: Bullish / Neutral / Bearish) with a no-trade flag where applicable
+2. **Opportunity summary** — count of today's candidates, count passing all rules, count flagged for review
+3. **Top contract candidates** — 2–3 card previews linking to `/signals`
+4. **Model health summary** — training date, data freshness status (stale / current), single health indicator
+5. **No-trade warning panel** — shown when zero valid setups exist; should feel informative, not like an error
+
+**Mock data to add** (`src/data/mockDashboard.ts`):
+- Market snapshots: instrument, regime, no-trade flag
+- Opportunity counts
+- Model health: training date, data freshness, status
+
+**MSW handler to add** (`src/mocks/handlers.ts`):
+- `GET /api/dashboard` → returns mock dashboard summary
+
+**Hook to add** (`src/hooks/useDashboard.ts`):
+- Same pattern as `useSignals`: `{ data, loading, error }`
 
 ---
 
 ## File Map
 
 | Action | File |
-|--------|------|
-| New    | `src/mocks/handlers.ts` |
-| New    | `src/mocks/browser.ts` |
-| New    | `src/hooks/useSignals.ts` |
-| New    | `public/mockServiceWorker.js` (generated) |
-| Edit   | `src/main.tsx` |
-| Edit   | `src/pages/DailySignals.tsx` |
-| Edit   | `README.md` |
+|---|---|
+| New | `src/pages/Dashboard.tsx` |
+| New | `src/data/mockDashboard.ts` |
+| New | `src/hooks/useDashboard.ts` |
+| Edit | `src/mocks/handlers.ts` — add `/api/dashboard` handler |
+| Edit | `src/main.tsx` or new `src/router.tsx` — add routes |
+| Edit | `src/App.tsx` — add navigation |
+| Edit | `README.md` — update Next Step |
 
 ---
 
 ## Definition of Done
 
-- [ ] `DailySignals.tsx` makes a `fetch('/api/signals')` call (no direct mock data import)
-- [ ] MSW intercepts the call and returns mock data in dev
-- [ ] Loading state is visible while the fetch is in flight
-- [ ] Error state renders if the fetch fails
-- [ ] `useSignals` hook encapsulates all fetch logic
-- [ ] README updated
+- [ ] Navigating to `/` shows the Dashboard; navigating to `/signals` shows Daily Signals
+- [ ] Dashboard renders all five sections with mock data
+- [ ] "No valid setups" state is handled and renders gracefully
+- [ ] `GET /api/dashboard` is intercepted by MSW
+- [ ] `useDashboard` hook encapsulates all fetch logic
+- [ ] No direct mock data imports in page components
+- [ ] Build passes (`npm run build`)
