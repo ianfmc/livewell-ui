@@ -5,8 +5,9 @@ import { useDashboard } from './useDashboard';
 
 describe('useDashboard', () => {
   it('returns loading:true initially', () => {
-    const { result } = renderHook(() => useDashboard());
+    const { result, unmount } = renderHook(() => useDashboard());
     expect(result.current.loading).toBe(true);
+    unmount();
   });
 
   it('populates data after successful fetch', async () => {

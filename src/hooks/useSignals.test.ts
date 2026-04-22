@@ -5,8 +5,9 @@ import { useSignals } from './useSignals';
 
 describe('useSignals', () => {
   it('returns loading:true initially', () => {
-    const { result } = renderHook(() => useSignals());
+    const { result, unmount } = renderHook(() => useSignals());
     expect(result.current.loading).toBe(true);
+    unmount();
   });
 
   it('populates data after successful fetch', async () => {
