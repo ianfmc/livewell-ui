@@ -27,8 +27,11 @@ describe('Dashboard', () => {
   it('renders Opportunity Summary section', async () => {
     renderDashboard();
     await screen.findByText('Market Conditions');
+    expect(screen.getByText('Total Candidates')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
+    expect(screen.getByText('Passing Rules')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
+    expect(screen.getByText('Flagged for Review')).toBeInTheDocument();
     expect(screen.getByText('1')).toBeInTheDocument();
   });
 
