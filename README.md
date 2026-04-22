@@ -102,11 +102,7 @@ http://localhost:5173
 
 ## Next Step
 
-Extract the backend — move the MSW handler toward a real server.
-
-* Set up a minimal Express or FastAPI server
-* Serve `GET /api/signals` from real data (file or DB)
-* Remove MSW from the dev flow once the real endpoint is live
+Replace mock data with real FastAPI endpoints and begin backend skeleton (Phase 1B).
 
 ---
 
