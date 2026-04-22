@@ -91,8 +91,8 @@ These choices were made during early development and are no longer open question
 - **DynamoDB MCP server** (`awslabs.dynamodb-mcp-server`) will be used to design table schemas, generate CDK infrastructure, and produce Python access layer code before backend implementation begins.
 
 ### Current phase progress
-- Phase 1A (Product Shell): Daily Signals page complete. Dashboard is next.
-- Phase 1B (Backend Core Skeleton): Not started. Begin in parallel with remaining 1A pages.
+- Phase 1A (Product Shell): Dashboard and Daily Signals complete. Test suite added (Vitest + RTL + MSW, 80% coverage). Remaining pages: Contract Detail, Backtest Results, expanded Model Health, How It Works, Signal Tracker, Options Advisor.
+- Phase 1B (Backend Core Skeleton): Not started. Begin in parallel once Contract Detail is complete.
 
 ---
 
