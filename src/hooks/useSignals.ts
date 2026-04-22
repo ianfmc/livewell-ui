@@ -13,7 +13,8 @@ export function useSignals(): UseSignalsResult {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/signals')
+    const controller = new AbortController();
+    fetch('/api/signals', { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`Request failed: ${res.status}`);
         return res.json() as Promise<ContractCard[]>;
@@ -22,11 +23,13 @@ export function useSignals(): UseSignalsResult {
         setData(json);
       })
       .catch((err: unknown) => {
+        if (err instanceof Error && err.name === 'AbortError') return;
         setError(err instanceof Error ? err.message : 'Unknown error');
       })
       .finally(() => {
         setLoading(false);
       });
+    return () => controller.abort();
   }, []);
 
   return { data, loading, error };

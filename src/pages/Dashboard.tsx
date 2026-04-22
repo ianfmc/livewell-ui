@@ -81,7 +81,7 @@ function TopCandidatesSection({ candidates }: { candidates: TopCandidate[] }) {
                   <Typography variant="body2" color="text.secondary">
                     Strike: {c.strike} &nbsp;|&nbsp; Expiry: {(() => {
                       try {
-                        return new Intl.DateTimeFormat(undefined, { timeStyle: 'short' }).format(new Date(c.expiry));
+                        return new Intl.DateTimeFormat(undefined, { dateStyle: 'short', timeStyle: 'short' }).format(new Date(c.expiry));
                       } catch {
                         return c.expiry;
                       }

@@ -12,12 +12,9 @@ import DialogActions from "@mui/material/DialogActions";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-type CardProps = {
-  instrument: string;
-  strike: string;
-  expiry: string;
-  status: string;
-};
+import type { ContractCard as ContractCardData } from '../data/mockData';
+
+type CardProps = ContractCardData;
 
 const ContractCard = ({ instrument, strike, expiry, status }: CardProps) => {
   const [open, setOpen] = useState(false);
