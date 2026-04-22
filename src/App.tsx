@@ -29,7 +29,7 @@ const App = () => {
           position="static"
           color="transparent"
           sx={{
-            bgcolor: theme === "light" ? "primary.main" : "grey.950",
+            bgcolor: theme === "light" ? "primary.main" : "grey.900",
           }}
         >
           <Toolbar>
@@ -37,10 +37,10 @@ const App = () => {
               LIVEWELL
             </Typography>
 
-            <Button component={Link} to="/" sx={{ color: "#FFFFFF" }}>
+            <Button<typeof Link> component={Link} to="/" sx={{ color: "#FFFFFF" }}>
               Dashboard
             </Button>
-            <Button component={Link} to="/signals" sx={{ color: "#FFFFFF" }}>
+            <Button<typeof Link> component={Link} to="/signals" sx={{ color: "#FFFFFF" }}>
               Daily Signals
             </Button>
 
