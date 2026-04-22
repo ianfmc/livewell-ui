@@ -9,12 +9,14 @@ LIVEWELL is a decision-support UI for trading NADEX binary options. It transform
 ## Commands
 
 ```bash
-npm run dev       # Start dev server at http://localhost:5173
-npm run build     # Type-check (tsc -b) then bundle (vite build)
-npm run lint      # ESLint across the project
+npm run dev           # Start dev server at http://localhost:5173
+npm run build         # Type-check (tsc -b) then bundle (vite build)
+npm run lint          # ESLint across the project
+npm test              # Vitest in watch mode — reruns affected tests on save
+npm run test:coverage # Single run with coverage report (80% line threshold enforced)
 ```
 
-No test framework is installed yet.
+Run a single test file: `npx vitest run src/hooks/useSignals.test.ts`
 
 ## Architecture
 
@@ -25,6 +27,8 @@ No test framework is installed yet.
 **Theme:** `src/components/theme-provider.tsx` wraps the app in a React context that persists `"light" | "dark"` to `localStorage` and toggles a class on `<html>`. Access it with `useTheme()`. MUI theming is not yet wired to this — the toggle currently drives manual `bgcolor` switches in `App.tsx`.
 
 **Pages vs components:** Pages (`src/pages/`) own data fetching and page-level layout. Components (`src/components/`) are presentational and receive props.
+
+**Testing:** Vitest + React Testing Library. Test files live next to the code they test (`useSignals.test.ts` beside `useSignals.ts`). MSW intercepts `fetch` in tests via `src/mocks/server.ts` (Node runtime), reusing the same `src/mocks/handlers.ts` as the dev service worker. `src/test/setup.ts` runs before every test file and manages the MSW lifecycle. Use `renderHook` for hooks, `render` + `screen` for components and pages. Dashboard tests require `MemoryRouter` wrapper (component uses `Link`). `ThemeProvider` is excluded from coverage — infrastructure with no product logic.
 
 ## Data Store (settled)
 
