@@ -9,12 +9,13 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import WarningIcon from '@mui/icons-material/Warning';
 import { Link } from 'react-router-dom';
 
 import { useDashboard } from '../hooks/useDashboard';
-import type { MarketSnapshot, TopCandidate, ModelHealth } from '../data/mockDashboard';
+import type { MarketSnapshot, TopCandidate, ModelHealth, OpportunitySummary } from '../data/mockDashboard';
 
 function MarketConditions({ markets }: { markets: MarketSnapshot[] }) {
   return (
@@ -27,7 +28,11 @@ function MarketConditions({ markets }: { markets: MarketSnapshot[] }) {
               label={`${m.instrument}: ${m.regime}`}
               color={m.regime === 'Bullish' ? 'success' : m.regime === 'Bearish' ? 'error' : 'default'}
             />
-            {m.noTrade && <WarningIcon fontSize="small" color="warning" />}
+            {m.noTrade && (
+              <Tooltip title="No trade — avoid this instrument">
+                <WarningIcon fontSize="small" color="warning" aria-label="No trade" />
+              </Tooltip>
+            )}
           </Stack>
         ))}
       </Stack>
@@ -35,7 +40,7 @@ function MarketConditions({ markets }: { markets: MarketSnapshot[] }) {
   );
 }
 
-function OpportunitySummarySection({ opportunities }: { opportunities: { total: number; passing: number; review: number } }) {
+function OpportunitySummarySection({ opportunities }: { opportunities: OpportunitySummary }) {
   return (
     <Box sx={{ mb: 4 }}>
       <Typography variant="h6" gutterBottom>Opportunity Summary</Typography>
@@ -74,13 +79,19 @@ function TopCandidatesSection({ candidates }: { candidates: TopCandidate[] }) {
                 <Box>
                   <Typography variant="subtitle1" fontWeight="bold">{c.instrument}</Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Strike: {c.strike} &nbsp;|&nbsp; Expiry: {c.expiry}
+                    Strike: {c.strike} &nbsp;|&nbsp; Expiry: {(() => {
+                      try {
+                        return new Intl.DateTimeFormat(undefined, { timeStyle: 'short' }).format(new Date(c.expiry));
+                      } catch {
+                        return c.expiry;
+                      }
+                    })()}
                   </Typography>
                   <Typography variant="body2">
                     Edge: <strong>{c.edge}</strong> &nbsp;|&nbsp; Confidence: {c.confidence}
                   </Typography>
                 </Box>
-                <Button component={Link} to="/signals" variant="outlined" size="small">
+                <Button<typeof Link> component={Link} to="/signals" variant="outlined" size="small">
                   View All Signals
                 </Button>
               </Stack>
