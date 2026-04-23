@@ -26,7 +26,7 @@ const ContractCard = ({ instrument, strike, expiry, status }: CardProps) => {
             <Typography variant="h5">{instrument}</Typography>
             <Chip label={status} size="small" />
           </Stack>
-          <Stack spacing={0.5} alignItems="flex-end">
+          <Stack spacing={0.5} alignItems="flex-start">
             <Typography variant="body1">Strike: {strike}</Typography>
             <Typography variant="body2" color="text.secondary">
               Expires: {expiry}
