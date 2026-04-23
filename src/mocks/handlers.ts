@@ -9,9 +9,11 @@ export const handlers = [
   http.get('/api/dashboard', () => {
     return HttpResponse.json(mockDashboard);
   }),
-  http.get('/api/signals/:instrument/:strike', ({ params }) => {
-    const instrument = (params.instrument as string).replace(/-/g, '/');
-    const strike = params.strike as string;
+  http.get<{ instrument: string; strike: string }>(
+    '/api/signals/:instrument/:strike',
+    ({ params }) => {
+      const instrument = params.instrument.replace(/-/g, '/');
+      const strike = params.strike;
     const detail = mockContractDetails.find(
       (d) => d.instrument === instrument && d.strike === strike
     );
