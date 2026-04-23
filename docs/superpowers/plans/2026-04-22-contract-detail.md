@@ -475,7 +475,7 @@ The page reads `instrument` and `strike` from `useParams`. `instrument` arrives 
 
 Layout C top to bottom: back link → instrument header + recommendation chip → context chips → 4-up metric strip → reason codes → rationale.
 
-Formatting: `modelProbability: 0.68` → `"68%"` (multiply by 100, round, append `%`). `edge: 0.14` → `"+14%"` (same, prefix `+` if non-negative). `edge: -0.07` → `"-7%"`.
+Formatting: `modelProbability: 0.68` → `"68%"` (multiply by 100, round, append `%`). `edge: 0.26` → `"+26%"` (same, prefix `+` if non-negative). `edge: -0.07` → `"-7%"`.
 
 Recommendation chip colours: `Take` → MUI `success`, `Watch` → MUI `warning`, `Pass` → MUI `default`.
 
@@ -838,7 +838,7 @@ Open http://localhost:5173/signals. Verify:
 - EUR/USD card is clickable (cursor changes on hover)
 - Clicking EUR/USD card navigates to `/signals/EUR-USD/1.0850`
 - Page shows `EUR/USD` header with `TAKE` chip (green)
-- 4 metric tiles display `$42`, `$100`, `68%`, `+14%`
+- 4 metric tiles display `$42`, `$100`, `68%`, `+26%`
 - Reason codes show ✓ Bullish regime confirmed, ✓ RSI momentum favourable, ✗ Event risk flag active
 - Back link `← Daily Signals` navigates back to `/signals`
 - Clicking USD/JPY card navigates to its detail page and shows `PASS` chip and `No Trade` chip
