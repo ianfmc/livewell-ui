@@ -82,7 +82,7 @@ export const mockContractDetails: ContractDetail[] = [
     rationale: 'Strong directional setup with acceptable event risk.',
     economics: { cost: 42, payout: 100, breakeven: 0.42 },
     modelProbability: 0.68,
-    edge: 0.14,
+    edge: 0.26,
     confidence: 'High',
     regime: 'Bullish',
     noTradeFlag: false,

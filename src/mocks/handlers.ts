@@ -14,12 +14,12 @@ export const handlers = [
     ({ params }) => {
       const instrument = params.instrument.replace(/-/g, '/');
       const strike = params.strike;
-    const detail = mockContractDetails.find(
-      (d) => d.instrument === instrument && d.strike === strike
-    );
-    if (!detail) {
-      return HttpResponse.json({ message: 'Not found' }, { status: 404 });
-    }
-    return HttpResponse.json(detail);
-  }),
+      const detail = mockContractDetails.find(
+        (d) => d.instrument === instrument && d.strike === strike
+      );
+      if (!detail) {
+        return HttpResponse.json({ message: 'Not found' }, { status: 404 });
+      }
+      return HttpResponse.json(detail);
+    }),
 ];
