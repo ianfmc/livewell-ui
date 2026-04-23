@@ -1,23 +1,32 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { server } from '../mocks/server';
 import { http, HttpResponse } from 'msw';
 import DailySignals from './DailySignals';
 
+function renderPage() {
+  return render(
+    <MemoryRouter>
+      <DailySignals />
+    </MemoryRouter>
+  );
+}
+
 describe('DailySignals', () => {
   it('renders contract cards after load', async () => {
-    render(<DailySignals />);
+    renderPage();
     expect(await screen.findByText('EUR/USD')).toBeInTheDocument();
     expect(screen.getByText('GBP/USD')).toBeInTheDocument();
     expect(screen.getByText('USD/JPY')).toBeInTheDocument();
   });
 
   it('shows spinner while loading', () => {
-    render(<DailySignals />);
+    renderPage();
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
   });
 
   it('status filter reduces visible cards', async () => {
-    render(<DailySignals />);
+    renderPage();
     await screen.findByText('EUR/USD');
 
     fireEvent.mouseDown(screen.getByRole('combobox'));
@@ -32,12 +41,12 @@ describe('DailySignals', () => {
     server.use(
       http.get('/api/signals', () => HttpResponse.json({ message: 'error' }, { status: 500 }))
     );
-    render(<DailySignals />);
+    renderPage();
     expect(await screen.findByRole('alert')).toBeInTheDocument();
   });
 
   it('filter reset to All shows all cards', async () => {
-    render(<DailySignals />);
+    renderPage();
     await screen.findByText('EUR/USD');
 
     fireEvent.mouseDown(screen.getByRole('combobox'));
