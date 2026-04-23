@@ -517,7 +517,7 @@ describe('ContractDetail', () => {
     expect(screen.getByText('$42')).toBeInTheDocument();
     expect(screen.getByText('$100')).toBeInTheDocument();
     expect(screen.getByText('68%')).toBeInTheDocument();
-    expect(screen.getByText('+14%')).toBeInTheDocument();
+    expect(screen.getByText('+26%')).toBeInTheDocument();
   });
 
   it('renders reason codes', async () => {
