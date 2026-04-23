@@ -6,6 +6,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Link, Route, Routes } from "react-router-dom";
 
+import ContractDetail from "./pages/ContractDetail";
 import Dashboard from "./pages/Dashboard";
 import DailySignals from "./pages/DailySignals";
 import { useTheme } from "./components/theme-provider";
@@ -58,6 +59,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/signals" element={<DailySignals />} />
+          <Route path="/signals/:instrument/:strike" element={<ContractDetail />} />
         </Routes>
       </Box>
     </>
