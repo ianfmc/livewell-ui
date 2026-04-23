@@ -203,7 +203,7 @@ Returns the 3 mock instruments (EUR/USD, GBP/USD, USD/JPY). Same data as `mockDa
 
 ### `GET /api/signals/{instrument}/{strike}` → `ContractDetail` or 404
 
-`instrument` parameter is hyphen-encoded in the URL (e.g. `EUR-USD`). The router decodes it (`EUR-USD` → `EUR/USD`) before matching. Returns 404 with `{"message": "Not found"}` if no match.
+`instrument` parameter is hyphen-encoded in the URL (e.g. `EUR-USD`). The router decodes it (`EUR-USD` → `EUR/USD`) before matching. Raises `HTTPException(status_code=404, detail="Not found")` if no match. FastAPI serialises this as `{"detail": "Not found"}`. The frontend hook does not parse the 404 body — it only checks `response.ok`.
 
 ### `GET /api/dashboard` → `DashboardData`
 
