@@ -70,7 +70,7 @@ const App = () => {
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
         >
-          <Box sx={{ width: 240, pt: 1 }} aria-label="navigation drawer">
+          <Box component="nav" sx={{ width: 240, pt: 1 }} aria-label="navigation drawer">
             <Divider />
             <List>
               {NAV_ITEMS.map(({ label, path }) => (
