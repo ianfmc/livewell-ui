@@ -1,59 +1,90 @@
-# Current Step: Phase 1A — Contract Detail Page
+# Current Step: Phase 1B — Backend Core Skeleton
 
-**Completed so far in Phase 1A:**
-- Daily Signals page (useSignals hook, ContractCard component, status filter)
+**Phase 1A status:** Complete
+- Daily Signals page (useSignals hook, ContractCard, status filter)
 - Dashboard page (market conditions, opportunity summary, top candidates, model health)
-- Test suite (Vitest + RTL + MSW, 21 tests, 96% coverage, 80% threshold enforced)
-
-**Next:** Build the Contract Detail page — a standalone page that explains one contract candidate deeply.
+- Contract Detail page (Layout C — chips + 4-up metric strip + reason codes + rationale)
+- Test suite (Vitest + RTL + MSW, 28 tests, 97.87% statement coverage, 80% threshold enforced)
 
 ---
 
 ## Goal
 
-A dedicated page at `/signals/:instrument` (or similar) that shows everything about one contract: economics, model probability vs. breakeven, edge calculation, reason codes, regime context, and recommendation (take / watch / pass).
+Stand up the backend structure so the UI is not quietly hard-coding assumptions that later fight the real system.
 
-This is the page where the system becomes interpretable. The Dashboard says "here are the candidates." Contract Detail says "here's why."
+Per the delivery plan:
+> Create the enduring system shape — prevent notebook logic from remaining the hidden source of truth — establish where every domain responsibility lives.
+
+This phase produces a **clean backend repository structure** even if some endpoints still return mock data.
 
 ---
 
 ## What to build
 
-The contract detail page doesn't exist yet. The closest thing is the `ContractCard` Info dialog, which shows strike/expiry/status only. This page goes much deeper.
+Per the delivery plan:
 
-**Sections:**
-1. **Contract header** — instrument, strike, expiry, status/recommendation chip
-2. **Economics panel** — cost, payout, breakeven probability, model probability, estimated edge
-3. **Confidence & regime** — confidence tier chip, regime label, no-trade flag if applicable
-4. **Reason codes** — why the model likes or dislikes this contract (list of labelled reasons)
-5. **Recommendation** — Take / Watch / Pass with a one-line rationale
+- Python package structure (`livewell/` with sub-modules)
+- FastAPI app shell
+- Route and schema stubs matching the front-end data contracts
+- Config scaffolding
+- Storage conventions (S3 Parquet + DynamoDB)
+- Placeholder services and jobs
 
-**What's needed:**
-- Extend `ContractCard` type in `src/data/mockData.ts` with the new fields (or create a richer `ContractDetail` type in a new data file)
-- Create `GET /api/signals/:instrument` MSW handler (or pass data via route state)
-- Create `src/hooks/useContractDetail.ts`
-- Create `src/pages/ContractDetail.tsx`
-- Add route `/signals/:instrument` to the router
-- Link from `ContractCard` (replace or augment the Info button)
-- Add tests: `src/pages/ContractDetail.test.tsx`
+### Module structure
+
+```
+livewell/
+  data/          — loaders, adapters, normalization
+  features/      — technical indicators, regime features, transforms
+  labels/        — target definitions and label generation
+  models/        — training, inference, calibration, artifact loading
+  decision/      — edge logic, thresholds, rule overlays
+  backtest/      — replay engine, metrics, logs, equity curves
+  explanations/  — reason codes, explanation builders
+  tracking/      — signal persistence, outcome tracking, monitoring
+  api/           — FastAPI routes and schemas
+  jobs/          — scheduled refresh, scoring, retraining workflows
+```
+
+### Endpoints to stub
+
+| Route | Page that needs it |
+|---|---|
+| `GET /api/signals` | Daily Signals |
+| `GET /api/signals/:instrument/:strike` | Contract Detail |
+| `GET /api/dashboard` | Dashboard |
+| `GET /api/backtest/summary` | Backtest Results |
+| `GET /api/model/health` | Model Health |
 
 ---
 
 ## Open questions to resolve during brainstorming
 
-- Route design: `/signals/:instrument` vs `/contracts/:id` — depends on whether contracts are uniquely identified by instrument+strike+expiry or a synthetic ID
-- Navigation: does the Info button on `ContractCard` navigate to the page, or does it remain a dialog for quick-peek and a new "Detail" button links to the page?
-- Data source: does `ContractDetail` get its data from a separate endpoint or is it derived from the signals list?
+- Repo location: separate `livewell-api` repo vs a `backend/` directory inside `livewell-ui`
+- Python version and tooling: `pyproject.toml` + `uv` vs `requirements.txt` + `venv`
+- Stub data strategy: return hardcoded JSON matching current MSW mocks, or define Pydantic schemas first?
+- CORS: how does the FastAPI dev server talk to the Vite dev server at localhost:5173?
 
 ---
 
 ## Definition of Done
 
-- [ ] Navigating to a contract detail URL renders the full detail page
-- [ ] All 5 sections render with mock data
-- [ ] Take/Watch/Pass recommendation is visible
-- [ ] Linked from the Daily Signals page
-- [ ] `useContractDetail` hook encapsulates fetch logic
-- [ ] Tests cover rendering and navigation
-- [ ] `npm run build` passes
-- [ ] `npm test` passes
+- [ ] Python package `livewell/` with sub-module stubs (empty `__init__.py` + one-line docstring per module)
+- [ ] FastAPI app shell (`main.py`) with CORS configured for localhost:5173
+- [ ] Route stubs returning the same JSON shape as current MSW handlers
+- [ ] Pydantic schemas for `ContractCard`, `ContractDetail`, `DashboardData`
+- [ ] Config via environment variable (`LIVEWELL_ENV`, `LIVEWELL_PORT`)
+- [ ] `README.md` with setup instructions
+- [ ] `pyproject.toml` with Python version pin and dependencies
+- [ ] At least one integration test: `GET /api/signals` returns 200 with expected schema
+
+---
+
+## Remaining Phase 1A pages (deferred)
+
+These will be built in parallel or after Phase 1B is scaffolded:
+- Backtest Results
+- Model Health (expanded)
+- How It Works
+- Signal Tracker / Outcome Review
+- Options Advisor
