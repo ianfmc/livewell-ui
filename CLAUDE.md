@@ -37,6 +37,10 @@ Run a single test file: `npx vitest run src/hooks/useSignals.test.ts`
 - RDS/PostgreSQL was considered and rejected in favour of serverless end-to-end.
 - The **DynamoDB MCP server** (`awslabs.dynamodb-mcp-server`) will be used to design table schemas and generate CDK + Python access layer code before backend implementation begins.
 
+## Worktrees
+
+Worktree directory: `.worktrees/` (project-local, hidden). Always use this location when creating git worktrees for feature branches.
+
 ## Key Conventions
 
 - MUI components are imported individually (`import Button from '@mui/material/Button'`), not from the barrel (`@mui/material`).
